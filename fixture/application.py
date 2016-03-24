@@ -31,7 +31,7 @@ class Application2:
 
     def open_home_page(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/edit.php")
+        wd.get("http://localhost/addressbook/")
 
     def destroy(self):
         self.wd.quit()
