@@ -1,6 +1,5 @@
 
 
-
 class Contact:
 
     def __init__(self, firstname, lastname, nickname, title, company, address, homenumber, mobilenumber,
