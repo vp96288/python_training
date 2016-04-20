@@ -1,3 +1,5 @@
+
+
 import pytest
 from fixture.application import Application
 
@@ -21,5 +23,3 @@ def stop(request):
         fixture.destroy()
     request.addfinalizer(fin)
     return fixture
-
-
