@@ -22,3 +22,5 @@ def test_modify_firstname_contact(app):
 #    app.contact.modify_first_contact(Contact(lastname="New lastname"))
 #    new_contacts = app.contact.get_contact_list()
 #    assert len(old_contacts) == len(new_contacts)
+
+
