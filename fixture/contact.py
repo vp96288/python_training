@@ -64,7 +64,9 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contacts_page()
         self.select_contact_by_index(index)
-        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_xpath("//*[@id='content']/form[1]/input[1]").click()
         self.open_contacts_page()
