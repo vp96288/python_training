@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
+import pytest
+import random
+import string
 
-def test_add_contact(app):
+def random_string(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+testdata = [Contact(firstname="", lastname="", nickname="", title="", company="", address="", homenumber="", mobilenumber="", email="", homepage="", dob_year="", notes="")] + [
+    Contact(firstname=random_string("firstname", 10), lastname=random_string("lastname", 10),
+            title=random_string("title", 10), company=random_string("company", 10), address=random_string("address", 20),
+            homenumber=random_string("homenumber", 7), mobilenumber=random_string("mobilenumber", 7),
+            email=random_string("email", 10), homepage=random_string("homepage", 20), dob_year=random_string("dob_year", 8),
+            notes=random_string("notes", 20))
+    for i in range(5)
+]
+
+@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
+def test_add_contact(app, contact):
     old_contacts = app.contact.get_contact_list()
-    contact = Contact(firstname="abra", lastname="kadabra", address="123 Troost avenue 123, Studio city", homenumber="5555555", worknumber="342424", mobilenumber="6666666", email="abra.kadabra@wellsfargo.com", email2="sadfs@fasdfa.asdf", email3="asfsfd@asdfasdf.asdfasdf", homepage="www.wellsfargo.com", dob_year="2000", notes="Some notes")
     app.contact.create(contact)
     assert len(old_contacts) + 1 == app.contact.count()
     new_contacts = app.contact.get_contact_list()
     old_contacts.append(contact)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 
-
-#def test_add_new_contact(app):
-#    old_contacts = app.contact.get_contact_list()
-#    contact = Contact(firstname="Petrov", lastname="Ivanov", nickname="Zver", title="Developer", company="Citibank", address="333 Las Vegas", homenumber="6666666", mobilenumber="7777777", email="petrov.ivanov@gmail.com", homepage="www.citibank.com", dob_year="1994", notes="New notes")
-#    app.contact.create(contact)
-#    new_contacts = app.contact.get_contact_list()
-#    assert len(old_contacts) + 1 == len(new_contacts)
-#    old_contacts.append(contact)
-#    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
